@@ -75,14 +75,14 @@ error_reporting(0);
             <?php 
             // Query for Listing count
             $searchdata=$_POST['searchdata'];
-            $sql = "SELECT tblvehicles.id from tblvehicles 
-                    join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand 
-                    where tblvehicles.VehiclesTitle=:search 
-                    || tblvehicles.FuelType=:search 
-                    || tblbrands.BrandName=:search 
-                    || tblvehicles.ModelYear=:search
-                    || tblvehicles.PricePerDay <=:search
-                    || tblvehicles.Location=:search";
+            $sql = "SELECT vehiclesdetails.id from vehiclesdetails 
+                    join brandsdetails on brandsdetails.id=vehiclesdetails.VehiclesBrand 
+                    where vehiclesdetails.VehiclesTitle=:search 
+                    || vehiclesdetails.FuelType=:search 
+                    || brandsdetails.BrandName=:search 
+                    || vehiclesdetails.ModelYear=:search
+                    || vehiclesdetails.PricePerDay <=:search
+                    || vehiclesdetails.Location=:search";
             $query = $dbh -> prepare($sql);
             $query -> bindParam(':search',$searchdata, PDO::PARAM_STR);
             $query->execute();
@@ -94,14 +94,14 @@ error_reporting(0);
         </div>
 
         <?php 
-        $sql = "SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid  from tblvehicles 
-                join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand 
-                where tblvehicles.VehiclesTitle=:search 
-                || tblvehicles.FuelType=:search 
-                || tblbrands.BrandName=:search 
-                || tblvehicles.ModelYear=:search 
-                || tblvehicles.Location=:search 
-                || tblvehicles.PricePerDay <=:search";
+        $sql = "SELECT vehiclesdetails.*,brandsdetails.BrandName,brandsdetails.id as bid  from vehiclesdetails 
+                join brandsdetails on brandsdetails.id=vehiclesdetails.VehiclesBrand 
+                where vehiclesdetails.VehiclesTitle=:search 
+                || vehiclesdetails.FuelType=:search 
+                || brandsdetails.BrandName=:search 
+                || vehiclesdetails.ModelYear=:search 
+                || vehiclesdetails.Location=:search 
+                || vehiclesdetails.PricePerDay <=:search";
         $query = $dbh -> prepare($sql);
         $query -> bindParam(':search',$searchdata, PDO::PARAM_STR);
         $query->execute();

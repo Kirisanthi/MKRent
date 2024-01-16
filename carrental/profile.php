@@ -16,7 +16,7 @@ $adress=$_POST['address'];
 $city=$_POST['city'];
 $country=$_POST['country'];
 $email=$_SESSION['login'];
-$sql="update tblusers set FullName=:name,ContactNo=:mobileno,dob=:dob,Address=:adress,City=:city,Country=:country where EmailId=:email";
+$sql="update usersdetails set FullName=:name,ContactNo=:mobileno,dob=:dob,Address=:adress,City=:city,Country=:country where EmailId=:email";
 $query = $dbh->prepare($sql);
 $query->bindParam(':name',$name,PDO::PARAM_STR);
 $query->bindParam(':mobileno',$mobileno,PDO::PARAM_STR);
@@ -112,7 +112,7 @@ $msg="Profile Updated Successfully";
 
 <?php 
 $useremail=$_SESSION['login'];
-$sql = "SELECT * from tblusers where EmailId=:useremail";
+$sql = "SELECT * from usersdetails where EmailId=:useremail";
 $query = $dbh -> prepare($sql);
 $query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
 $query->execute();

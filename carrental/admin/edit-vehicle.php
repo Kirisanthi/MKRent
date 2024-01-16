@@ -20,7 +20,7 @@ $modelyear=$_POST['modelyear'];
 $seatingcapacity=$_POST['seatingcapacity'];
 $id=intval($_GET['id']);
 
-$sql="update tblvehicles set VehiclesTitle=:vehicletitle,VehiclesBrand=:brand,Location=:location,VehiclesOverview=:vehicleoverview,PricePerDay=:priceperday,FuelType=:fueltype,ModelYear=:modelyear,SeatingCapacity=:seatingcapacity where id=:id ";
+$sql="update vehiclesdetails set VehiclesTitle=:vehicletitle,VehiclesBrand=:brand,Location=:location,VehiclesOverview=:vehicleoverview,PricePerDay=:priceperday,FuelType=:fueltype,ModelYear=:modelyear,SeatingCapacity=:seatingcapacity where id=:id ";
 $query = $dbh->prepare($sql);
 $query->bindParam(':vehicletitle',$vehicletitle,PDO::PARAM_STR);
 $query->bindParam(':brand',$brand,PDO::PARAM_STR);
@@ -105,7 +105,7 @@ $msg="Data updated successfully";
 										<?php if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 										<?php 
 										$id=intval($_GET['id']);
-										$sql ="SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblvehicles.id=:id";
+										$sql ="SELECT vehiclesdetails.*,brandsdetails.BrandName,brandsdetails.id as bid from vehiclesdetails join brandsdetails on brandsdetails.id=vehiclesdetails.VehiclesBrand where vehiclesdetails.id=:id";
 										$query = $dbh -> prepare($sql);
 										$query-> bindParam(':id', $id, PDO::PARAM_STR);
 										$query->execute();
@@ -126,7 +126,7 @@ $msg="Data updated successfully";
 									<div class="col-sm-4">
 										<select class="selectpicker"  style = "background:#325E9F" name="brandname" required>
 										 <option value="<?php echo htmlentities($result->bid);?>"><?php echo htmlentities($bdname=$result->BrandName); ?> </option>
-											<?php $ret="select id,BrandName from tblbrands";
+											<?php $ret="select id,BrandName from brandsdetails";
 											$query= $dbh -> prepare($ret);
 											//$query->bindParam(':id',$id, PDO::PARAM_STR);
 											$query-> execute();

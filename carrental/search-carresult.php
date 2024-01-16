@@ -79,7 +79,7 @@ error_reporting(0);
 //Query for Listing count
 $brand=$_POST['brand'];
 $fueltype=$_POST['fueltype'];
-$sql = "SELECT id from tblvehicles where tblvehicles.VehiclesBrand=:brand and tblvehicles.FuelType=:fueltype";
+$sql = "SELECT id from vehiclesdetails where vehiclesdetails.VehiclesBrand=:brand and vehiclesdetails.FuelType=:fueltype";
 $query = $dbh -> prepare($sql);
 $query -> bindParam(':brand',$brand, PDO::PARAM_STR);
 $query -> bindParam(':fueltype',$fueltype, PDO::PARAM_STR);
@@ -93,7 +93,7 @@ $cnt=$query->rowCount();
 
 <?php 
 
-$sql = "SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid  from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblvehicles.VehiclesBrand=:brand and tblvehicles.FuelType=:fueltype";
+$sql = "SELECT vehiclesdetails.*,brandsdetails.BrandName,brandsdetails.id as bid  from vehiclesdetails join brandsdetails on brandsdetails.id=vehiclesdetails.VehiclesBrand where vehiclesdetails.VehiclesBrand=:brand and vehiclesdetails.FuelType=:fueltype";
 $query = $dbh -> prepare($sql);
 $query -> bindParam(':brand',$brand, PDO::PARAM_STR);
 $query -> bindParam(':fueltype',$fueltype, PDO::PARAM_STR);
@@ -133,7 +133,7 @@ foreach($results as $result)
                 <select class="form-control">
                   <option>Select Brand</option>
 
-                  <?php $sql = "SELECT * from  tblbrands ";
+                  <?php $sql = "SELECT * from  brandsdetails ";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);

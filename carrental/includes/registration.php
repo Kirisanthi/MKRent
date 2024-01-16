@@ -9,7 +9,7 @@ if (isset($_POST['signup'])) {
     $confirmpassword = md5($_POST['confirmpassword']);
 
     if ($password === $confirmpassword) {
-        $sql = "INSERT INTO  tblusers(FullName,EmailId,ContactNo,Roles,Password) VALUES(:fname,:email,:mobile,:roles,:password)";
+        $sql = "INSERT INTO  usersdetails(FullName,EmailId,ContactNo,Roles,Password) VALUES(:fname,:email,:mobile,:roles,:password)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':fname', $fname, PDO::PARAM_STR);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
@@ -19,34 +19,31 @@ if (isset($_POST['signup'])) {
         $query->execute();
         $lastInsertId = $dbh->lastInsertId();
 
-        if ($lastInsertId) {
-          echo "<script>
-          var alertBox = document.createElement('div');
-          alertBox.className = 'custom-alert';
-          alertBox.innerHTML = '<p> <strong style=\"color: green;\">Success:</strong> Registration successful. Now you can login.</p>';
-          document.body.appendChild(alertBox);
+      if ($lastInsertId) {
+      echo "<script>
+      var alertBox = document.createElement('div');
+      alertBox.className = 'custom-alert';
+      alertBox.innerHTML = '<p> <strong style=\"color: green;\">Success:</strong> Registration successful. Now you can login.</p>';
+      document.body.appendChild(alertBox);
     
-          setTimeout(function() {
-              document.body.removeChild(alertBox);
-          }, 4000); // Remove the alert after 4 seconds
-        </script>";
-            // echo "<script>alert('Registration successful. Now you can login');</script>";
-        } else {
-            echo "<script>alert('Something went wrong. Please try again');</script>";
-        }
+      setTimeout(function() {
+      document.body.removeChild(alertBox);
+      }, 4000); // Remove the alert after 4 seconds
+      </script>";
+    } else {
+      echo "<script>alert('Something went wrong. Please try again');</script>";
+    }
     } else {
       echo "<script>
       var alertBox = document.createElement('div');
       alertBox.className = 'custom-alert';
-      alertBox.innerHTML = '<p><strong style=\"color: red;\">Error:</strong> Password and Confirm Password do not match. Try again to register.</p>';
+      alertBox.innerHTML = '<p><strong style=\"color: red;\">Error:</strong> Password and Confirm Password do not match. 
+      Try again to register.</p>';
       document.body.appendChild(alertBox);
-
       setTimeout(function() {
           document.body.removeChild(alertBox);
       }, 4000); // Remove the alert after 4 seconds
     </script>";
-    
-        // echo "<script>alert('Password and Confirm Password do not match Try again ');</script>";
     }
 }
 ?>
@@ -129,11 +126,11 @@ return true;
                     <div class="column" style="margin-left: 30px;" >
                     <h6>Role</h6>
                     </div>
-                    <div class="column" style="margin-left: 30px;">
-                         <input style="margin-left: 30px;" type="radio" id="driver" name="roles" value="driver">
+                    <div class="column" style="margin-left: 30px;" >
+                         <input style="margin-left: 30px;" type="radio" id="driver" name="roles" value="driver" required>
                          <label class="radio_align" for="driver">Driver</label>
 
-                         <input  style="margin-left: 30px;" type="radio" id="owner" name="roles" value="owner">
+                         <input  style="margin-left: 30px;" type="radio" id="owner" name="roles" value="owner" required>
                          <label for="owner">Owner</label><br>
                     </div>
                   </div>

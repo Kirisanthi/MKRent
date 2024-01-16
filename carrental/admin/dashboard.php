@@ -10,7 +10,7 @@ else{
 	?>
 
 <?php 
-$sql ="SELECT id from tblusers ";
+$sql ="SELECT id from usersdetails ";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -18,7 +18,7 @@ $regusers=$query->rowCount();
 ?>
 
 <?php 
-$sql1 ="SELECT id from tblvehicles ";
+$sql1 ="SELECT id from vehiclesdetails ";
 $query1 = $dbh -> prepare($sql1);;
 $query1->execute();
 $results1=$query1->fetchAll(PDO::FETCH_OBJ);
@@ -26,7 +26,7 @@ $totalvehicle=$query1->rowCount();
 ?>
 
 <?php 
-$sql2 ="SELECT id from tblbooking ";
+$sql2 ="SELECT id from vechiclebooking ";
 $query2= $dbh -> prepare($sql2);
 $query2->execute();
 $results2=$query2->fetchAll(PDO::FETCH_OBJ);
@@ -34,7 +34,7 @@ $bookings=$query2->rowCount();
 ?>
 
 <?php 
-$sql4 ="SELECT id from tblsubscribers ";
+$sql4 ="SELECT id from subscribersdetails ";
 $query4 = $dbh -> prepare($sql4);
 $query4->execute();
 $results4=$query4->fetchAll(PDO::FETCH_OBJ);
@@ -42,7 +42,7 @@ $subscribers=$query4->rowCount();
 ?>
 
 <?php 
-$sql5 ="SELECT id from tbltestimonial ";
+$sql5 ="SELECT id from testimonialdetails ";
 $query5= $dbh -> prepare($sql5);
 $query5->execute();
 $results5=$query5->fetchAll(PDO::FETCH_OBJ);
@@ -50,7 +50,7 @@ $testimonials=$query5->rowCount();
 ?>
 
 <?php 
-$sql6 ="SELECT id from tblcontactusquery ";
+$sql6 ="SELECT id from usercontactus ";
 $query6 = $dbh -> prepare($sql6);;
 $query6->execute();
 $results6=$query6->fetchAll(PDO::FETCH_OBJ);

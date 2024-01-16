@@ -3,12 +3,13 @@ if(isset($_POST['login']))
 {
 $email=$_POST['email'];
 $password=md5($_POST['password']);
-$sql ="SELECT EmailId,Password,FullName FROM tblusers WHERE EmailId=:email and Password=:password";
+$sql ="SELECT EmailId,Password,FullName FROM usersdetails WHERE EmailId=:email and Password=:password";
 $query= $dbh -> prepare($sql);
 $query-> bindParam(':email', $email, PDO::PARAM_STR);
 $query-> bindParam(':password', $password, PDO::PARAM_STR);
 $query-> execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
+
 if($query->rowCount() > 0)
 {
 $_SESSION['login']=$_POST['email'];
@@ -20,15 +21,14 @@ echo "<script type='text/javascript'> document.location = '$currentpage'; </scri
   echo "<script>
   var alertBox = document.createElement('div');
   alertBox.className = 'custom-alert';
-  alertBox.innerHTML = '<p><strong style=\"color: red;\">Error:</strong> Your UserName or Password incorrect. Please check it and login again...</p>';
+  alertBox.innerHTML = '<p>
+  <strong style=\"color: red;\">Error:</strong> Your Email or Password incorrect. Please check it and login again...</p>';
   document.body.appendChild(alertBox);
 
   setTimeout(function() {
       document.body.removeChild(alertBox);
   }, 4000); // Remove the alert after 4 seconds
 </script>";
-  // echo "<script>alert('Invalid Details');</script>";
-
 }
 
 }

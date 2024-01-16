@@ -11,7 +11,7 @@ if(isset($_REQUEST['eid']))
 	{
 $eid=intval($_GET['eid']);
 $status=1;
-$sql = "UPDATE tblcontactusquery SET status=:status WHERE  id=:eid";
+$sql = "UPDATE usercontactus SET status=:status WHERE  id=:eid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':eid',$eid, PDO::PARAM_STR);
@@ -118,7 +118,7 @@ $query -> execute();
 									</tfoot> -->
 									<tbody>
 
-									<?php $sql = "SELECT * from  tblcontactusquery ";
+									<?php $sql = "SELECT * from  usercontactus ";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);

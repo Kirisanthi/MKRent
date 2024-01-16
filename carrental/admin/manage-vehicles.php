@@ -11,14 +11,12 @@ else{
 if(isset($_REQUEST['del']))
 	{
 $delid=intval($_GET['del']);
-$sql = "delete from tblvehicles  WHERE  id=:delid";
+$sql = "delete from vehiclesdetails  WHERE  id=:delid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':delid',$delid, PDO::PARAM_STR);
 $query -> execute();
 $msg="Vehicle  record deleted successfully";
 }
-
-
  ?>
 
 <!doctype html>
@@ -106,7 +104,7 @@ $msg="Vehicle  record deleted successfully";
 								
 									<tbody>
 
-<?php $sql = "SELECT tblvehicles.VehiclesTitle,tblbrands.BrandName,tblvehicles.PricePerDay,tblvehicles.FuelType,tblvehicles.Location,tblvehicles.ModelYear,tblvehicles.id from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand";
+<?php $sql = "SELECT vehiclesdetails.VehiclesTitle,brandsdetails.BrandName,vehiclesdetails.PricePerDay,vehiclesdetails.FuelType,vehiclesdetails.Location,vehiclesdetails.ModelYear,vehiclesdetails.id from vehiclesdetails join brandsdetails on brandsdetails.id=vehiclesdetails.VehiclesBrand";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -115,21 +113,20 @@ if($query->rowCount() > 0)
 {
 foreach($results as $result)
 {				?>	
-										<tr>
-											<td><?php echo htmlentities($cnt);?></td>
-											<td><?php echo htmlentities($result->VehiclesTitle);?></td>
-											<td><?php echo htmlentities($result->BrandName);?></td>
-											<td><?php echo htmlentities($result->PricePerDay);?></td>
-											<td><?php echo htmlentities($result->FuelType);?></td>
-											<td><?php echo htmlentities($result->Location);?></td>
-												<td><?php echo htmlentities($result->ModelYear);?></td>
-		<td><a href="edit-vehicle.php?id=<?php echo $result->id;?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-<a href="manage-vehicles.php?del=<?php echo $result->id;?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i></a></td>
-										</tr>
-										<?php $cnt=$cnt+1; }} ?>
-										
-									</tbody>
-								</table>
+<tr>
+<td><?php echo htmlentities($cnt);?></td>
+<td><?php echo htmlentities($result->VehiclesTitle);?></td>
+<td><?php echo htmlentities($result->BrandName);?></td>
+<td><?php echo htmlentities($result->PricePerDay);?></td><td><?php echo htmlentities($result->FuelType);?></td>
+<td><?php echo htmlentities($result->Location);?></td>
+<td><?php echo htmlentities($result->ModelYear);?></td>
+<td><a href="edit-vehicle.php?id=<?php echo $result->id;?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+<a href="manage-vehicles.php?del=<?php echo $result->id;?>" onclick="return confirm('Do you want to delete');">
+<i class="fa fa-close"></i></a></td>
+</tr>
+<?php $cnt=$cnt+1; }} ?>
+</tbody>
+</table>
 
 						
 

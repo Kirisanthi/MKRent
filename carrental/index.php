@@ -76,7 +76,7 @@ error_reporting(0);
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="resentnewcar">
 
-<?php $sql = "SELECT tblvehicles.VehiclesTitle,tblbrands.BrandName,tblvehicles.PricePerDay,tblvehicles.FuelType,tblvehicles.ModelYear,tblvehicles.id,tblvehicles.SeatingCapacity,tblvehicles.VehiclesOverview,tblvehicles.Vimage1 from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand limit 9";
+<?php $sql = "SELECT vehiclesdetails.VehiclesTitle,brandsdetails.BrandName,vehiclesdetails.PricePerDay,vehiclesdetails.FuelType,vehiclesdetails.ModelYear,vehiclesdetails.id,vehiclesdetails.SeatingCapacity,vehiclesdetails.VehiclesOverview,vehiclesdetails.Vimage1 from vehiclesdetails join brandsdetails on brandsdetails.id=vehiclesdetails.VehiclesBrand limit 9";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -129,7 +129,7 @@ foreach($results as $result)
       <div id="testimonial-slider" >
 <?php 
 $tid=1;
-$sql = "SELECT tbltestimonial.Testimonial,tblusers.FullName from tbltestimonial join tblusers on tbltestimonial.UserEmail=tblusers.EmailId where tbltestimonial.status=:tid limit 4";
+$sql = "SELECT testimonialdetails.Testimonial,usersdetails.FullName from testimonialdetails join usersdetails on testimonialdetails.UserEmail=usersdetails.EmailId where testimonialdetails.status=:tid limit 4";
 $query = $dbh -> prepare($sql);
 $query->bindParam(':tid',$tid, PDO::PARAM_STR);
 $query->execute();
@@ -143,7 +143,7 @@ foreach($results as $result)
 
         <div class="testimonial-m" >
           <div class="testimonial-content" >
-            <div class="testimonial-heading">
+            <div >
               <h5><?php echo htmlentities($result->FullName);?></h5>
             <p><?php echo htmlentities($result->Testimonial);?></p>
           </div>

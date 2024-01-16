@@ -63,8 +63,8 @@ a,
 }
 
 a:hover, a:focus, .btn-link:hover {
-	color:#ff0012;
-	fill: #ff0012;
+	color:#26A7D9;
+	fill: #26A7D9;
 }
 
 .btn, 
@@ -106,8 +106,8 @@ a:hover, a:focus, .btn-link:hover {
 .btn:hover, .btn:focus, 
 .search_other:hover, 
 #other_info:hover {
-	background-color: #c60210;
-	fill: #fb4d59;
+	background-color: #26A7D9;
+	fill: #26A7D9;
 }
 
 .nav-tabs > li.active > a, 

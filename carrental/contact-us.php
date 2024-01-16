@@ -8,13 +8,14 @@ $name=$_POST['fullname'];
 $email=$_POST['email'];
 $contactno=$_POST['contactno'];
 $message=$_POST['message'];
-$sql="INSERT INTO  tblcontactusquery(name,EmailId,ContactNumber,Message) VALUES(:name,:email,:contactno,:message)";
+$sql="INSERT INTO  usercontactus(name,EmailId,ContactNumber,Message) VALUES(:name,:email,:contactno,:message)";
 $query = $dbh->prepare($sql);
 $query->bindParam(':name',$name,PDO::PARAM_STR);
 $query->bindParam(':email',$email,PDO::PARAM_STR);
 $query->bindParam(':contactno',$contactno,PDO::PARAM_STR);
 $query->bindParam(':message',$message,PDO::PARAM_STR);
 $query->execute();
+
 $lastInsertId = $dbh->lastInsertId();
 if($lastInsertId)
 {
@@ -83,7 +84,7 @@ $error="Something went wrong. Please try again";
 </head>
 <body>
 
-<<!-- Start Switcher -->
+<!-- Start Switcher -->
 <?php include('includes/colorswitcher.php');?>
 <!-- /Switcher -->  
         
@@ -115,8 +116,10 @@ $error="Something went wrong. Please try again";
     <div  class="row">
       <div class="col-md-8">
         <h3>Fill the form to Contact US</h3>
-          <?php if($error){?><div class="errorWrap"><strong style="color:red">ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
-        else if($msg){?><div class="succWrap"><strong style="color:green">SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
+          <?php if($error){?><div class="errorWrap"><strong style="color:red; font: size 24px;">ERROR</strong>:
+          <?php echo htmlentities($error); ?> </div><?php } 
+        else if($msg){?><div class="succWrap"><strong style="color:green; font: size 24px;" >SUCCESS</strong>:
+        <?php echo htmlentities($msg); ?> </div><?php }?>
         <div class="contact_form gray-bg">
           <form  method="post">
           <div  class="row">
@@ -165,7 +168,7 @@ $error="Something went wrong. Please try again";
         <div class="contact_detail">
               <?php 
 $pagetype=$_GET['type'];
-$sql = "SELECT Address,EmailId,ContactNo from tblcontactusinfo";
+$sql = "SELECT Address,EmailId,ContactNo from contactusdetails";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);

@@ -49,7 +49,7 @@ include('includes/config.php');
 <?php include('includes/header.php');?>
                       <?php 
 $pagetype=$_GET['type'];
-$sql = "SELECT type,detail,PageName from tblpages where type=:pagetype";
+$sql = "SELECT type,detail,PageName from commonpages where type=:pagetype";
 $query = $dbh -> prepare($sql);
 $query->bindParam(':pagetype',$pagetype,PDO::PARAM_STR);
 $query->execute();

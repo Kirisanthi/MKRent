@@ -8,6 +8,19 @@ include('includes/config.php');
 // }
 // else{ 
 
+$email = $_SESSION['login'];
+$sql = "SELECT EmailId FROM usersdetails WHERE EmailId=:email";
+$query = $dbh->prepare($sql);
+$query->bindParam(':email', $email, PDO::PARAM_STR);
+$query->execute();
+$result = $query->fetch(PDO::FETCH_ASSOC);
+$ownerEmail = $result['EmailId'];
+
+
+	use PHPMailer\PHPMailer\PHPMailer;
+	use PHPMailer\PHPMailer\Exception;
+					
+
 		if(isset($_POST['submit']))
 		{
 					$vehicletitle=$_POST['vehicletitle'];
@@ -27,7 +40,8 @@ include('includes/config.php');
 					move_uploaded_file($_FILES["img3"]["tmp_name"],"img/vehicleimages/".$_FILES["img3"]["name"]);
 					move_uploaded_file($_FILES["img4"]["tmp_name"],"img/vehicleimages/".$_FILES["img4"]["name"]);
 
-					$sql="INSERT INTO tblvehicles(VehiclesTitle,VehiclesBrand,Location,VehiclesOverview,PricePerDay,FuelType,ModelYear,SeatingCapacity,Vimage1,Vimage2,Vimage3,Vimage4) VALUES(:vehicletitle,:brand,:location,:vehicleoverview,:priceperday,:fueltype,:modelyear,:seatingcapacity,:vimage1,:vimage2,:vimage3,:vimage4)";
+					// $sql="INSERT INTO vehiclesdetails(VehiclesTitle,VehiclesBrand,Location,VehiclesOverview,PricePerDay,FuelType,ModelYear,SeatingCapacity,Vimage1,Vimage2,Vimage3,Vimage4) VALUES(:vehicletitle,:brand,:location,:vehicleoverview,:priceperday,:fueltype,:modelyear,:seatingcapacity,:vimage1,:vimage2,:vimage3,:vimage4)";
+					$sql="INSERT INTO vehiclesdetails(VehiclesTitle, VehiclesBrand, Location, VehiclesOverview, PricePerDay, FuelType, ModelYear, SeatingCapacity, Vimage1, Vimage2, Vimage3, Vimage4, ownerEmail) VALUES (:vehicletitle, :brand, :location, :vehicleoverview, :priceperday, :fueltype, :modelyear, :seatingcapacity, :vimage1, :vimage2, :vimage3, :vimage4, :owneremail)";
 					$query = $dbh->prepare($sql);
 					$query->bindParam(':vehicletitle',$vehicletitle,PDO::PARAM_STR);
 					$query->bindParam(':brand',$brand,PDO::PARAM_STR);
@@ -41,17 +55,57 @@ include('includes/config.php');
 					$query->bindParam(':vimage2',$vimage2,PDO::PARAM_STR);
 					$query->bindParam(':vimage3',$vimage3,PDO::PARAM_STR);
 					$query->bindParam(':vimage4',$vimage4,PDO::PARAM_STR);
+					$query->bindParam(':owneremail', $ownerEmail, PDO::PARAM_STR);
 					$query->execute();
 					$lastInsertId = $dbh->lastInsertId();
 					if($lastInsertId)
 					{
 					$msg="Vehicle posted successfully";
+
+
+
+
+					
+					require 'phpmailer/src/Exception.php';
+					require 'phpmailer/src/PHPMailer.php';
+					require 'phpmailer/src/SMTP.php';
+					$mail = new PHPMailer(true); 
+					try {
+									$mail->isSMTP();                                           
+											$mail->Host       = 'smtp.gmail.com';                     
+											$mail->SMTPAuth   = true;                                   
+											$mail->Username   = 'kirumaju2@gmail.com';               
+											$mail->Password   = 'lhea wcla vqte gmkf';                  
+											$mail->SMTPSecure = 'tls';                                
+											$mail->Port       = 587;                                  
+
+											//Recipients
+											$mail->setFrom('from@example.com', 'Mailer');
+											$mail->addAddress('kirumaju2@gmail.com', 'Kirumaju');   
+
+											// Content
+											$mail->isHTML(true);                                        
+											$mail->Subject = 'New Vehicle Posted';
+											$mail->Body    = "A new vehicle has been posted with the following Details.<br>" .
+											"VehicleTitle: '$vehicletitle'<br>" .
+											"Location: '$location'<br>" .
+											"Brand: '$brand'<br>" .
+											"PricePerDay: '$priceperday'<br>";
+
+											$mail->send();
+											$msg = 'Vehicle posted successfully .... ';
+						} catch (Exception $e) {
+							$error = 'Message could not be sent. Mailer Error: '.$mail->ErrorInfo;
+						}
 					}
 					else 
 					{
 					$error="Something went wrong. Please try again";
 					}
 
+
+
+					
 		}
 
 
@@ -142,7 +196,7 @@ include('includes/config.php');
 																	<div class="col-sm-4">
 																		<select class="selectpicker" name="brandname" required>
 																		<option value=""> Select </option>
-																			<?php $ret="select id,BrandName from tblbrands";
+																			<?php $ret="select id,BrandName from brandsdetails";
 																			$query= $dbh -> prepare($ret);
 																			//$query->bindParam(':id',$id, PDO::PARAM_STR);
 																			$query-> execute();

@@ -50,7 +50,7 @@ else{
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->  
 
-<script src="https://www.paypal.com/sdk/js?client-id=AZICfPuNWtxY0Xd89pS4zDFp6Q2_CIX3gB01vfeaBjC_aLlXv0FKIAf5C0ifFncSEheFGz42LwenFVdq"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AZICfPuNWtxY0Xd89pS4zDFp6Q2_CIX3gB01vfeaBjC_aLlXv0FKIAf5C0ifFncSEheFGz42LwenFVdq&currency=GBP"></script>
 
 </head>
 <body>
@@ -93,7 +93,7 @@ else{
                           <ul class="vehicle_listing">
                                 <?php 
                                 $useremail=$_SESSION['login'];
-                                $sql = "SELECT tblvehicles.Vimage1 as Vimage1,tblvehicles.VehiclesTitle,tblvehicles.id as vid,tblbrands.BrandName,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.Status,tblvehicles.PricePerDay,DATEDIFF(tblbooking.ToDate,tblbooking.FromDate) as totaldays,tblbooking.BookingNumber  from tblbooking join tblvehicles on tblbooking.VehicleId=tblvehicles.id join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblbooking.userEmail=:useremail order by tblbooking.id desc";
+                                $sql = "SELECT vehiclesdetails.Vimage1 as Vimage1,vehiclesdetails.VehiclesTitle,vehiclesdetails.id as vid,brandsdetails.BrandName,vechiclebooking.FromDate,vechiclebooking.ToDate,vechiclebooking.message,vechiclebooking.Status,vehiclesdetails.PricePerDay,DATEDIFF(vechiclebooking.ToDate,vechiclebooking.FromDate) as totaldays,vechiclebooking.BookingNumber  from vechiclebooking join vehiclesdetails on vechiclebooking.VehicleId=vehiclesdetails.id join brandsdetails on brandsdetails.id=vehiclesdetails.VehiclesBrand where vechiclebooking.userEmail=:useremail order by vechiclebooking.id desc";
                                 $query = $dbh -> prepare($sql);
                                 $query-> bindParam(':useremail', $useremail, PDO::PARAM_STR);
                                 $query->execute();
@@ -103,7 +103,7 @@ else{
                                 {
                                 foreach($results as $result)
                                 {  ?>
- <h5 style="color:blue">Invoice</h5>
+
                                 <li>
                                     <h4 style="color:#26A7D9">Booking No #<?php echo htmlentities($result->BookingNumber);?></h4>
                                     <div class="vehicle_img"> <a href="vehical-details.php?vhid=<?php echo htmlentities($result->vid);?>">
@@ -119,10 +119,9 @@ else{
                     
                                
 
-                              
+                              <h5 style="color:blue">Invoice</h5>
                               
                                     <table>
-                                   
                                           <tr>
                                             <th>Car Name</th>
                                             <th>From Date</th>
@@ -146,32 +145,26 @@ else{
 
                             <h5 style="color:blue">You Can Pay Now!</h5>
                             <div id="paypal-button-container-<?php echo $cnt; ?>"></div>
-                           
-                           
-                            <script src="https://www.paypal.com/sdk/js?client-id=AZICfPuNWtxY0Xd89pS4zDFp6Q2_CIX3gB01vfeaBjC_aLlXv0FKIAf5C0ifFncSEheFGz42LwenFVdq&currency=GBP"></script>
-                            <script>
-                                  // Render the PayPal button for each booking
-                                  paypal.Buttons({
-                                      createOrder: function(data, actions) {
-                                          return actions.order.create({
-                                              purchase_units: [{
-                                                  amount: {
-                                                      currency: '£', // Set the currency to GBP
-                                                      value: '<?php echo $result->totaldays * $result->PricePerDay; ?>' // Use the total amount for each booking
-                                                  }
-                                              }]
-                                          });
-                                      },
-                                      onApprove: function(data, actions) {
-                                          return actions.order.capture().then(function(details) {
-                                              alert('Transaction completed by ' + details.payer.name.given_name);
-                                          });
-                                      }
-                                  }).render('#paypal-button-container-<?php echo $cnt; ?>');
-                              </script>
-
-
-                                                    
+                                                      <script>
+                                                          // Render the PayPal button for each booking
+                                                          paypal.Buttons({
+                                                              createOrder: function(data, actions) {
+                                                                  return actions.order.create({
+                                                                      purchase_units: [{
+                                                                          amount: {
+                                                                            currency: '£', // Set the currency to GBP
+                                                                            value: '<?php echo $result->totaldays * $result->PricePerDay; ?>' // Use the total amount for each booking' // Use the total amount for each booking
+                                                                          }
+                                                                      }]
+                                                                  });
+                                                              },
+                                                              onApprove: function(data, actions) {
+                                                                  return actions.order.capture().then(function(details) {
+                                                                      alert('Transaction completed by ' + details.payer.name.given_name);
+                                                                  });
+                                                              }
+                                                          }).render('#paypal-button-container-<?php echo $cnt; ?>');
+                                                      </script>
                                              </li>
                                              <?php
                                     $cnt++;

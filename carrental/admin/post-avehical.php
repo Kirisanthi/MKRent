@@ -27,7 +27,7 @@ move_uploaded_file($_FILES["img2"]["tmp_name"],"img/vehicleimages/".$_FILES["img
 move_uploaded_file($_FILES["img3"]["tmp_name"],"img/vehicleimages/".$_FILES["img3"]["name"]);
 move_uploaded_file($_FILES["img4"]["tmp_name"],"img/vehicleimages/".$_FILES["img4"]["name"]);
 
-$sql="INSERT INTO tblvehicles(VehiclesTitle,VehiclesBrand,Location,VehiclesOverview,PricePerDay,FuelType,ModelYear,SeatingCapacity,Vimage1,Vimage2,Vimage3,Vimage4) VALUES(:vehicletitle,:brand,:location,:vehicleoverview,:priceperday,:fueltype,:modelyear,:seatingcapacity,:vimage1,:vimage2,:vimage3,:vimage4)";
+$sql="INSERT INTO vehiclesdetails(VehiclesTitle,VehiclesBrand,Location,VehiclesOverview,PricePerDay,FuelType,ModelYear,SeatingCapacity,Vimage1,Vimage2,Vimage3,Vimage4) VALUES(:vehicletitle,:brand,:location,:vehicleoverview,:priceperday,:fueltype,:modelyear,:seatingcapacity,:vimage1,:vimage2,:vimage3,:vimage4)";
 $query = $dbh->prepare($sql);
 $query->bindParam(':vehicletitle',$vehicletitle,PDO::PARAM_STR);
 $query->bindParam(':brand',$brand,PDO::PARAM_STR);
@@ -134,7 +134,7 @@ $error="Something went wrong. Please try again";
 																	<div class="col-sm-4">
 																		<select class="selectpicker" name="brandname" required>
 																		<option value=""> Select </option>
-																			<?php $ret="select id,BrandName from tblbrands";
+																			<?php $ret="select id,BrandName from brandsdetails";
 																			$query= $dbh -> prepare($ret);
 																			//$query->bindParam(':id',$id, PDO::PARAM_STR);
 																			$query-> execute();

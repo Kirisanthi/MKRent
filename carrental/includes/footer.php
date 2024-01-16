@@ -2,7 +2,7 @@
 if(isset($_POST['emailsubscibe']))
 {
 $subscriberemail=$_POST['subscriberemail'];
-$sql ="SELECT SubscriberEmail FROM tblsubscribers WHERE SubscriberEmail=:subscriberemail";
+$sql ="SELECT SubscriberEmail FROM subscribersdetails WHERE SubscriberEmail=:subscriberemail";
 $query= $dbh -> prepare($sql);
 $query-> bindParam(':subscriberemail', $subscriberemail, PDO::PARAM_STR);
 $query-> execute();
@@ -13,7 +13,7 @@ if($query -> rowCount() > 0)
 echo "<script>alert('Already Subscribed.');</script>";
 }
 else{
-$sql="INSERT INTO  tblsubscribers(SubscriberEmail) VALUES(:subscriberemail)";
+$sql="INSERT INTO  subscribersdetails(SubscriberEmail) VALUES(:subscriberemail)";
 $query = $dbh->prepare($sql);
 $query->bindParam(':subscriberemail',$subscriberemail,PDO::PARAM_STR);
 $query->execute();
@@ -73,7 +73,7 @@ echo "<script>alert('Something went wrong. Please try again');</script>";
         <div class="col-md-4">
         <?php 
 $pagetype=$_GET['type'];
-$sql = "SELECT Address,EmailId,ContactNo from tblcontactusinfo";
+$sql = "SELECT Address,EmailId,ContactNo from contactusdetails";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);

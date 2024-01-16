@@ -10,7 +10,7 @@ else{
 if(isset($_GET['del']))
 {
 $id=$_GET['del'];
-$sql = "delete from tblbrands  WHERE id=:id";
+$sql = "delete from brandsdetails  WHERE id=:id";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':id',$id, PDO::PARAM_STR);
 $query -> execute();
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$selectedDate = $_POST["selectedDate"];
 	$databaseDateFormat = date("y/m/d", strtotime($selectedDate));
 
-	$sql = "SELECT * FROM tblvehicles WHERE RegDate > '$databaseDateFormat'";
+	$sql = "SELECT * FROM vehiclesdetails WHERE RegDate > '$databaseDateFormat'";
 	$query = $dbh->prepare($sql);
 	$query->execute();
 	$results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -137,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 										$databaseDateFormat = date("y/m/d", strtotime($selectedDate));
 										
 
-										$sql = "SELECT * FROM tblvehicles WHERE RegDate > '$databaseDateFormat'";
+										$sql = "SELECT * FROM vehiclesdetails WHERE RegDate > '$databaseDateFormat'";
 
 										$query = $dbh -> prepare($sql);
 										$query->execute();

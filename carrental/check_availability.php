@@ -8,7 +8,7 @@ if(!empty($_POST["emailid"])) {
 
 	}
 	else {
-		$sql ="SELECT EmailId FROM tblusers WHERE EmailId=:email";
+		$sql ="SELECT EmailId FROM usersdetails WHERE EmailId=:email";
 $query= $dbh -> prepare($sql);
 $query-> bindParam(':email', $email, PDO::PARAM_STR);
 $query-> execute();
@@ -25,6 +25,5 @@ echo "<span style='color:red'> Email already exists .</span>";
 }
 }
 }
-
 
 ?>

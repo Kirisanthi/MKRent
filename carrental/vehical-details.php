@@ -2,6 +2,9 @@
 session_start();
 include('includes/config.php');
 error_reporting(0);
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 if(isset($_POST['submit']))
 {
 $fromdate=$_POST['fromdate'];
@@ -10,7 +13,7 @@ $message=$_POST['message'];
 $useremail=$_SESSION['login'];
 $vhid=$_GET['vhid'];
 $bookingno=mt_rand(100000000, 999999999);
-$ret="SELECT * FROM tblbooking where (:fromdate BETWEEN date(FromDate) and date(ToDate) || :todate BETWEEN date(FromDate) and date(ToDate) || date(FromDate) BETWEEN :fromdate and :todate) and VehicleId=:vhid";
+$ret="SELECT * FROM vechiclebooking where (:fromdate BETWEEN date(FromDate) and date(ToDate) || :todate BETWEEN date(FromDate) and date(ToDate) || date(FromDate) BETWEEN :fromdate and :todate) and VehicleId=:vhid";
 $query1 = $dbh -> prepare($ret);
 $query1->bindParam(':vhid',$vhid, PDO::PARAM_STR);
 $query1->bindParam(':fromdate',$fromdate,PDO::PARAM_STR);
@@ -20,8 +23,8 @@ $results1=$query1->fetchAll(PDO::FETCH_OBJ);
 
 if($query1->rowCount()==0)
 {
-
-$sql="INSERT INTO  tblbooking(BookingNumber,userEmail,VehicleId,FromDate,ToDate,message) VALUES(:bookingno,:useremail,:vhid,:fromdate,:todate,:message)";
+$sql="INSERT INTO  vechiclebooking(BookingNumber,userEmail,VehicleId,FromDate,ToDate,message)
+ VALUES(:bookingno,:useremail,:vhid,:fromdate,:todate,:message)";
 $query = $dbh->prepare($sql);
 $query->bindParam(':bookingno',$bookingno,PDO::PARAM_STR);
 $query->bindParam(':useremail',$useremail,PDO::PARAM_STR);
@@ -29,10 +32,65 @@ $query->bindParam(':vhid',$vhid,PDO::PARAM_STR);
 $query->bindParam(':fromdate',$fromdate,PDO::PARAM_STR);
 $query->bindParam(':todate',$todate,PDO::PARAM_STR);
 $query->bindParam(':message',$message,PDO::PARAM_STR);
+
 $query->execute();
 $lastInsertId = $dbh->lastInsertId();
 if($lastInsertId)
 {
+  $sql = "SELECT ownerEmail FROM vehiclesdetails  WHERE id = :vhid";
+  $query = $dbh->prepare($sql);
+  $query->bindParam(':vhid', $vhid, PDO::PARAM_STR);
+  $query->execute();
+  if ($query->errorCode() != 0) {
+      $errors = $query->errorInfo();
+      echo "SQL error: " . $errors[2] . "<br>"; // Display SQL error
+  }
+  $result = $query->fetch(PDO::FETCH_ASSOC);
+  if ($result) {
+      $ownerEmail = $result['ownerEmail'];
+  } else {
+      echo "No matching ownerEmail found for ID: " . $vhid . "<br>";
+  }
+require 'phpmailer/src/Exception.php';
+					require 'phpmailer/src/PHPMailer.php';
+					require 'phpmailer/src/SMTP.php';
+					$mail = new PHPMailer(true); 
+					try {
+									$mail->isSMTP();                                           
+											$mail->Host       = 'smtp.gmail.com';                     
+											$mail->SMTPAuth   = true;                                   
+											$mail->Username   = 'kirumaju2@gmail.com';               
+											$mail->Password   = 'lhea wcla vqte gmkf';                  
+											$mail->SMTPSecure = 'tls';                                
+											$mail->Port       = 587;                                  
+
+											//Recipients
+											$mail->setFrom('from@example.com', 'Mailer');
+                      $mail->isHTML(true);  
+											$mail->addAddress($ownerEmail);
+											                                        
+                      $mail->Subject = 'Your Vehicle Booked';
+                      $mail->Body    = "Your Vehicle has been booked. Here are the Booking Details:<br>".
+                                       "Booking No: " . htmlspecialchars($bookingno) . "<br>" .
+                                       "Driver Email: " . htmlspecialchars($useremail) . "<br>" .
+                                       "From Date: " . htmlspecialchars($fromdate) . "<br>" .
+                                       "To Date: " . htmlspecialchars($todate);
+                                       $mail->send();
+                                       $mail->clearAddresses(); 
+
+
+                                       $mail->addAddress('kirumaju2@gmail.com');
+                        $mail->Subject = 'Vehicle Booking Notification';
+                        $mail->Body = "A vehicle has been booked. Here are the details:<br>" .
+                        "Booking No: " . htmlspecialchars($bookingno) . "<br>" .
+                        "Driver Email: " . htmlspecialchars($useremail) . "<br>" .
+                        "From Date: " . htmlspecialchars($fromdate) . "<br>" .
+                        "To Date: " . htmlspecialchars($todate);
+                         $mail->send();
+
+						} catch (Exception $e) {
+              echo 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo;
+						}
 echo "<script>alert('Booking successfull.');</script>";
 echo "<script type='text/javascript'> document.location = 'my-booking.php'; </script>";
 }
@@ -42,10 +100,9 @@ echo "<script>alert('Something went wrong. Please try again');</script>";
  echo "<script type='text/javascript'> document.location = 'car-listing.php'; </script>";
 } 
 }  else{
- echo "<script>alert('Car already booked for these days Please select another day or another car..');</script>"; 
-//  echo "<script type='text/javascript'> document.location = 'car-listing.php'; </script>";
+ echo "<script>alert('Car already booked for these days Please select another day or another car..');
+ </script>"; 
 }
-
 }
 
 ?>
@@ -132,7 +189,7 @@ function submitForm() {
 
 <?php 
 $vhid=intval($_GET['vhid']);
-$sql = "SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid  from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblvehicles.id=:vhid";
+$sql = "SELECT vehiclesdetails.*,brandsdetails.BrandName,brandsdetails.id as bid  from vehiclesdetails join brandsdetails on brandsdetails.id=vehiclesdetails.VehiclesBrand where vehiclesdetails.id=:vhid";
 $query = $dbh -> prepare($sql);
 $query->bindParam(':vhid',$vhid, PDO::PARAM_STR);
 $query->execute();
@@ -166,7 +223,7 @@ $_SESSION['brndid']=$result->bid;
 
   <div class="container">
   <!-- <div class="form-group" >
-                <input  style="background-color:red" class="btn"  name="submit" value="Go back" >
+                <input  style="background-color:#26A7D9" class="btn"  name="submit" value="Go back" >
   </div> -->
 
     <div class="listing_detail_head row">

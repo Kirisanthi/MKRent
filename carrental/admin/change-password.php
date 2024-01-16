@@ -146,7 +146,7 @@ return true;
 								
 											
 											<div class="form-group">
-												<div class="col-sm-12 col-sm-offset-10" style="width=100%">
+												<div class="col-sm-12 col-sm-offset-9" style="width:100%; margin-right:10px">
 													<button class="btn btn-primary" name="submit" type="submit">Save changes</button>
 												</div>
 											</div>

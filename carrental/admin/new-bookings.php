@@ -96,7 +96,7 @@ else{
 
 									<?php 
 // $status=0;
-									$sql = "SELECT tblusers.FullName,tblbrands.BrandName,tblvehicles.VehiclesTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.VehicleId as vid,tblbooking.PostingDate,tblbooking.id,tblbooking.BookingNumber  from tblbooking join tblvehicles on tblvehicles.id=tblbooking.VehicleId join tblusers on tblusers.EmailId=tblbooking.userEmail join tblbrands on tblvehicles.VehiclesBrand=tblbrands.id";
+									$sql = "SELECT usersdetails.FullName,brandsdetails.BrandName,vehiclesdetails.VehiclesTitle,vechiclebooking.FromDate,vechiclebooking.ToDate,vechiclebooking.message,vechiclebooking.VehicleId as vid,vechiclebooking.PostingDate,vechiclebooking.id,vechiclebooking.BookingNumber  from vechiclebooking join vehiclesdetails on vehiclesdetails.id=vechiclebooking.VehicleId join usersdetails on usersdetails.EmailId=vechiclebooking.userEmail join brandsdetails on vehiclesdetails.VehiclesBrand=brandsdetails.id";
 $query = $dbh -> prepare($sql);
 // $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query->execute();

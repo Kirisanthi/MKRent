@@ -13,7 +13,7 @@ if(isset($_POST['submit']))
 $address=$_POST['address'];
 $email=$_POST['email'];	
 $contactno=$_POST['contactno'];
-$sql="update tblcontactusinfo set Address=:address,EmailId=:email,ContactNo=:contactno";
+$sql="update contactusdetails set Address=:address,EmailId=:email,ContactNo=:contactno";
 $query = $dbh->prepare($sql);
 $query->bindParam(':address',$address,PDO::PARAM_STR);
 $query->bindParam(':email',$email,PDO::PARAM_STR);
@@ -96,7 +96,7 @@ $msg="Info Updateed successfully";
 											
   	        	  <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
 				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
-				<?php $sql = "SELECT * from  tblcontactusinfo ";
+				<?php $sql = "SELECT * from  contactusdetails ";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);

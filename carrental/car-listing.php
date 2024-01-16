@@ -93,7 +93,7 @@ error_reporting(0);
 
     <div class="row" style="display: flex; flex-wrap: wrap;">
         <?php
-        $sql = "SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid  from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand";
+        $sql = "SELECT vehiclesdetails.*,brandsdetails.BrandName,brandsdetails.id as bid  from vehiclesdetails join brandsdetails on brandsdetails.id=vehiclesdetails.VehiclesBrand";
         $query = $dbh->prepare($sql);
         $query->execute();
         $results = $query->fetchAll(PDO::FETCH_OBJ);

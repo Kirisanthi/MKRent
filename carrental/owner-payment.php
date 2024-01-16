@@ -79,7 +79,7 @@ else{
             <ul class="vehicle_listing">
 <?php 
 $useremail=$_SESSION['login'];
-$sql = "SELECT * from tbltestimonial where UserEmail=:useremail";
+$sql = "SELECT * from testimonialdetails where UserEmail=:useremail";
 $query = $dbh -> prepare($sql);
 $query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
 $query->execute();
