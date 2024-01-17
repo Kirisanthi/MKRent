@@ -16,6 +16,7 @@ $location=$_POST['location'];
 $vehicleoverview=$_POST['vehicalorcview'];
 $priceperday=$_POST['priceperday'];
 $fueltype=$_POST['fueltype'];
+$ownerEmail=$_POST['ownerEmail'];
 $modelyear=$_POST['modelyear'];
 $seatingcapacity=$_POST['seatingcapacity'];
 $vimage1=$_FILES["img1"]["name"];
@@ -27,7 +28,7 @@ move_uploaded_file($_FILES["img2"]["tmp_name"],"img/vehicleimages/".$_FILES["img
 move_uploaded_file($_FILES["img3"]["tmp_name"],"img/vehicleimages/".$_FILES["img3"]["name"]);
 move_uploaded_file($_FILES["img4"]["tmp_name"],"img/vehicleimages/".$_FILES["img4"]["name"]);
 
-$sql="INSERT INTO vehiclesdetails(VehiclesTitle,VehiclesBrand,Location,VehiclesOverview,PricePerDay,FuelType,ModelYear,SeatingCapacity,Vimage1,Vimage2,Vimage3,Vimage4) VALUES(:vehicletitle,:brand,:location,:vehicleoverview,:priceperday,:fueltype,:modelyear,:seatingcapacity,:vimage1,:vimage2,:vimage3,:vimage4)";
+$sql="INSERT INTO vehiclesdetails(VehiclesTitle,VehiclesBrand,Location,VehiclesOverview,PricePerDay,FuelType,ownerEmail,ModelYear,SeatingCapacity,Vimage1,Vimage2,Vimage3,Vimage4) VALUES(:vehicletitle,:brand,:location,:vehicleoverview,:priceperday,:fueltype,:ownerEmail,:modelyear,:seatingcapacity,:vimage1,:vimage2,:vimage3,:vimage4)";
 $query = $dbh->prepare($sql);
 $query->bindParam(':vehicletitle',$vehicletitle,PDO::PARAM_STR);
 $query->bindParam(':brand',$brand,PDO::PARAM_STR);
@@ -35,6 +36,7 @@ $query->bindParam(':location',$location,PDO::PARAM_STR);
 $query->bindParam(':vehicleoverview',$vehicleoverview,PDO::PARAM_STR);
 $query->bindParam(':priceperday',$priceperday,PDO::PARAM_STR);
 $query->bindParam(':fueltype',$fueltype,PDO::PARAM_STR);
+$query->bindParam(':ownerEmail',$ownerEmail,PDO::PARAM_STR);
 $query->bindParam(':modelyear',$modelyear,PDO::PARAM_STR);
 $query->bindParam(':seatingcapacity',$seatingcapacity,PDO::PARAM_STR);
 $query->bindParam(':vimage1',$vimage1,PDO::PARAM_STR);
@@ -55,7 +57,7 @@ $error="Something went wrong. Please try again";
 }
 
 
-	?>
+?>
 <!doctype html>
 <html lang="en" class="no-js">
 
@@ -126,11 +128,28 @@ $error="Something went wrong. Please try again";
 												<div class="panel-body">
 														<form method="post" class="form-horizontal" enctype="multipart/form-data">
 																<div class="form-group">
+																<label class="col-sm-2 control-label">Car Owner Email<span style="color:red">*</span></label>
+																		<div class="col-sm-4">
+																		<input type="text" name="ownerEmail" class="form-control" required>
+																		</div>
+
 																	<label class="col-sm-2 control-label">Vehicle Title<span style="color:red">*</span></label>
 																	<div class="col-sm-4">
 																		<input type="text" name="vehicletitle" class="form-control" required>
 																	</div>
-																	<label class="col-sm-2 control-label">Select Brand<span style="color:red">*</span></label>
+																
+																</div>
+
+
+
+
+																<div class="form-group">
+																	<label class="col-sm-2 control-label">Vehicle Pick-up location<span style="color:red">*</span></label>
+																		<div class="col-sm-4">
+																		<input type="text" name="location" class="form-control" required>
+																		</div>
+
+																		<label class="col-sm-2 control-label">Select Brand<span style="color:red">*</span></label>
 																	<div class="col-sm-4">
 																		<select class="selectpicker" name="brandname" required>
 																		<option value=""> Select </option>
@@ -149,16 +168,8 @@ $error="Something went wrong. Please try again";
 
 																		</select>
 																	</div>
-																</div>
 
-
-
-
-																<div class="form-group">
-																	<label class="col-sm-2 control-label">Vehicle Pick-up location<span style="color:red">*</span></label>
-																		<div class="col-sm-4">
-																		<input type="text" name="location" class="form-control" required>
-																		</div>
+																		
 																</div>
 																<div class="hr-dashed"></div>
 																								
