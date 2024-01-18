@@ -6,7 +6,7 @@ Database Configuration
 
 Open phpmyadmin
 Create Database mktravels
-Import database carrental.sql (available SQL File Folder inside zip package)
+
 
 For User
 Open Your browser put inside browser “http://localhost/MKRent/carrental”

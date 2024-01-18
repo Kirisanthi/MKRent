@@ -16,13 +16,12 @@ $_SESSION['login']=$_POST['email'];
 $_SESSION['fname']=$results->FullName;
 $currentpage=$_SERVER['REQUEST_URI'];
 echo "<script type='text/javascript'> document.location = '$currentpage'; </script>";
-} else{
-  
+} 
+else{
   echo "<script>
   var alertBox = document.createElement('div');
   alertBox.className = 'custom-alert';
-  alertBox.innerHTML = '<p>
-  <strong style=\"color: red;\">Error:</strong> Your Email or Password incorrect. Please check it and login again...</p>';
+  alertBox.innerHTML = '<p> <strong style=\"color: red;\">Error:</strong> Your Email or Password incorrect. Please check it and login again...</p>';
   document.body.appendChild(alertBox);
 
   setTimeout(function() {
@@ -30,6 +29,7 @@ echo "<script type='text/javascript'> document.location = '$currentpage'; </scri
   }, 4000); // Remove the alert after 4 seconds
 </script>";
 }
+
 
 }
 

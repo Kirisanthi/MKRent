@@ -37,13 +37,13 @@ if (isset($_POST['signup'])) {
       echo "<script>
       var alertBox = document.createElement('div');
       alertBox.className = 'custom-alert';
-      alertBox.innerHTML = '<p><strong style=\"color: red;\">Error:</strong> Password and Confirm Password do not match. 
-      Try again to register.</p>';
+      alertBox.innerHTML = '<p> <strong style=\"color: red;\">Error:</strong> Password and Confirm Password do not match.Try again to register.</p>';
       document.body.appendChild(alertBox);
       setTimeout(function() {
           document.body.removeChild(alertBox);
       }, 4000); // Remove the alert after 4 seconds
     </script>";
+
     }
 }
 ?>
